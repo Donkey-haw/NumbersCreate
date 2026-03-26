@@ -52,17 +52,22 @@ async def upload_pdf(
             
     # Save uploaded PDF to unique work dir
     temp_pdf_path = os.path.join(work_dir, f"input_{file.filename}")
+    print(f"[DEBUG] Saving PDF to: {temp_pdf_path}")
     with open(temp_pdf_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
         
     # Extract images to unique subdirectory
     img_dir = os.path.join(work_dir, "images")
+    print(f"[DEBUG] Extracting images to: {img_dir}")
     image_paths = extract_pdf_pages(temp_pdf_path, pages=list(unique_pages), output_dir=img_dir)
+    print(f"[DEBUG] Total images extracted: {len(image_paths)}")
     
     # Generate numbers file in isolated dir
     output_numbers_name = f"{doc_name.replace(' ', '_')}.numbers"
     output_numbers_path = os.path.join(work_dir, output_numbers_name)
+    print(f"[DEBUG] Generating Numbers file at: {output_numbers_path}")
     generate_numbers_from_images(image_paths, output_numbers_path, sheets_array)
+    print(f"[DEBUG] Generation complete.")
     
     # We use BackgroundTasks or just return and clean up? 
     # FileResponse needs the file to exist. 
