@@ -1,17 +1,13 @@
-# Environments
 venv/
-env/
-.env
-
-# Python
 __pycache__/
+*.numbers
+temp_*
+output_*
+.DS_Store
+/temp_pdf_images/
+/temp_images/
 *.py[cod]
 *$py.class
 *.so
-
-# OS
-.DS_Store
-
-# Temporary Numbers files
-numbers/*_Final.numbers
-numbers/Dynamic*
+.env
+.ipynb_checkpoints/

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Numbers Converter</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF to Numbers 변환기</h1>
+            <p>교과서 PDF를 업로드하고 변환할 페이지를 선택하세요. (2열 하향 배치로 자동 변환됩니다)</p>
+        </header>
+
+        <section class="upload-section">
+            <div class="upload-controls">
+                <input type="file" id="pdf-upload" accept="application/pdf" />
+                <button id="generate-btn" disabled>선택된 페이지 넘버스로 변환하기</button>
+            </div>
+            <div id="settings-panel" class="settings hidden">
+                <div style="width:100%; display:flex; justify-content:center; margin-bottom: 10px;">
+                    <label>파일명: <input type="text" id="doc-title" placeholder="생성할 파일 이름" /></label>
+                </div>
+                
+                <div class="sheet-manager">
+                    <div class="tabs-container" id="tabs-container"></div>
+                    <button id="add-sheet-btn" class="btn-secondary">+ 시트 추가</button>
+                    <div style="margin-left:auto; display:flex; gap:10px; align-items:center;">
+                        <label>선택된 시트 이름: <input type="text" id="active-sheet-name"/></label>
+                        <button id="delete-sheet-btn" class="btn-danger">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="preview-section">
+            <div id="selection-controls" class="hidden" style="margin-bottom: 15px; display: flex; gap: 10px; justify-content: center;">
+                <button id="select-all-btn" style="background-color: #34c759;">전체 선택</button>
+                <button id="deselect-all-btn" style="background-color: #ff3b30;">전체 해제</button>
+            </div>
+            <div id="loading-msg" class="hidden">PDF를 불러오는 중입니다...</div>
+            <div id="pdf-preview-container"></div>
+        </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

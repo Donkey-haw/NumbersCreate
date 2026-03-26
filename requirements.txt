@@ -2,3 +2,7 @@ protobuf>=4.21.0
 cramjam>=2.7.0
 python-snappy>=0.6.1
 numbers-parser>=4.13.0
+PyMuPDF>=1.23.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+python-multipart>=0.0.6
