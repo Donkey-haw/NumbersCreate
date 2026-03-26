@@ -21,8 +21,8 @@ COPY . .
 # Ensure frontend directory exists
 RUN mkdir -p frontend
 
-# Expose port (Render uses environment variable, but 7000 is our default)
-EXPOSE 7000
+# Expose port (Hugging Face uses 7860)
+EXPOSE 7860
 
 # Run the application
 CMD ["python", "main.py"]
