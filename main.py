@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import asyncio
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -8,6 +9,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from pdf_to_numbers import extract_pdf_pages, generate_numbers_from_images
 
 app = FastAPI()
+
+# Global semaphore to limit heavy processing to 1 concurrent task 
+# to avoid OOM on free tier (512MB RAM)
+conversion_semaphore = asyncio.Semaphore(1)
 
 # Allow CORS for development
 app.add_middleware(
@@ -33,8 +38,9 @@ async def upload_pdf(
     sheets_data: str = Form(...),
     doc_name: str = Form("Untitled")
     ):
-    import uuid
-    # Create a unique work directory for this specific request
+    async with conversion_semaphore:
+        import uuid
+        # Create a unique work directory for this specific request
     request_id = str(uuid.uuid4())
     work_dir = os.path.join("/tmp", request_id)
     os.makedirs(work_dir, exist_ok=True)
