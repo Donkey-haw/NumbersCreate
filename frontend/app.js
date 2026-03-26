@@ -254,6 +254,25 @@ function updateGenerateButton() {
     }
 }
 
+const progressContainer = document.getElementById('progress-container');
+const timerSpan = document.getElementById('timer');
+let timerInterval = null;
+let secondsElapsed = 0;
+
+function startTimer() {
+    secondsElapsed = 0;
+    timerSpan.innerText = secondsElapsed;
+    progressContainer.classList.remove('hidden');
+    timerInterval = setInterval(() => {
+        secondsElapsed++;
+        timerSpan.innerText = secondsElapsed;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
 generateBtn.addEventListener('click', async () => {
     const totalSelected = sheets.reduce((sum, sheet) => sum + sheet.pages.length, 0);
     if (totalSelected === 0 || !currentPdfFile) return;
@@ -273,6 +292,7 @@ generateBtn.addEventListener('click', async () => {
     
     generateBtn.disabled = true;
     generateBtn.innerText = "서버에서 변환 중입니다...";
+    startTimer();
 
     try {
         const response = await fetch('/upload', { method: 'POST', body: formData });
@@ -292,6 +312,8 @@ generateBtn.addEventListener('click', async () => {
         console.error(err);
         alert("변환 중 오류가 발생했습니다. 백엔드 콘솔을 확인해주세요.");
     } finally {
+        stopTimer();
+        progressContainer.classList.add('hidden');
         updateGenerateButton();
     }
 });

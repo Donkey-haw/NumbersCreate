@@ -31,6 +31,9 @@
                 <input type="file" id="pdf-upload" accept="application/pdf" />
                 <button id="generate-btn" disabled>선택된 페이지 넘버스로 변환하기</button>
             </div>
+            <div id="progress-container" class="hidden" style="margin-top: 10px; color: #0071e3; font-weight: bold;">
+                진행 시간: <span id="timer">0</span>초... (잠시만 기다려 주세요)
+            </div>
             <div id="settings-panel" class="settings hidden">
                 <div style="width:100%; display:flex; justify-content:center; margin-bottom: 10px;">
                     <label>파일명: <input type="text" id="doc-title" placeholder="생성할 파일 이름" /></label>

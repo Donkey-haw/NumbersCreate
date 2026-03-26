@@ -3,7 +3,7 @@ import fitz  # PyMuPDF
 from numbers_parser import Document
 from numbers_parser.cell import BackgroundImage
 
-def extract_pdf_pages(pdf_path, pages=None, output_dir="/tmp/pdf_images", dpi=150):
+def extract_pdf_pages(pdf_path, pages=None, output_dir="/tmp/pdf_images", dpi=120):
     """
     Extracts specified pages from a PDF as images. 
     If pages is None, extracts all pages.
