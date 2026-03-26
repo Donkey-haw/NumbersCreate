@@ -1,29 +1,37 @@
-import os
-import fitz  # PyMuPDF
-from numbers_parser import Document
-from numbers_parser.cell import BackgroundImage
+from concurrent.futures import ThreadPoolExecutor
 
 def extract_pdf_pages(pdf_path, pages=None, output_dir="/tmp/pdf_images", dpi=120):
     """
-    Extracts specified pages from a PDF as images. 
+    Extracts specified pages from a PDF as images in parallel for speed. 
     If pages is None, extracts all pages.
     """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
-    doc = fitz.open(pdf_path)
     
+    doc = fitz.open(pdf_path)
     if pages is None:
-        pages = range(len(doc))
-        
-    image_paths = {}
-    for page_idx in pages:
-        if page_idx < 0 or page_idx >= len(doc): continue
-        page = doc.load_page(page_idx)
+        pages = list(range(len(doc)))
+    
+    def render_page(p_idx):
+        if p_idx < 0 or p_idx >= len(doc): return None
+        # Use a fresh document handle per thread for safety in some PyMuPDF versions
+        thread_doc = fitz.open(pdf_path)
+        page = thread_doc.load_page(p_idx)
         pix = page.get_pixmap(dpi=dpi)
-        img_path = os.path.join(output_dir, f"page_{page_idx}.png")
+        img_path = os.path.join(output_dir, f"page_{p_idx}.png")
         pix.save(img_path)
-        image_paths[page_idx] = img_path
-        
+        thread_doc.close()
+        return p_idx, img_path
+
+    image_paths = {}
+    with ThreadPoolExecutor() as executor:
+        results = list(executor.map(render_page, pages))
+        for res in results:
+            if res:
+                p_idx, path = res
+                image_paths[p_idx] = path
+                
+    doc.close()
     return image_paths
 
 def generate_numbers_from_images(image_paths, output_path, sheets_data):
