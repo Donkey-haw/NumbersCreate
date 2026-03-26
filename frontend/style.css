@@ -13,12 +13,43 @@ body {
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px;
+}
+
+.notice-section {
+    margin-bottom: 25px;
+}
+
+.notice-card {
+    background: #fff9e6;
+    border-left: 5px solid #ffcc00;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.notice-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    color: #856404;
+}
+
+.notice-card ul {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.notice-card li {
+    margin-bottom: 5px;
 }
 
 header {
     text-align: center;
     margin-bottom: 30px;
+    padding: 20px;
 }
 
 h1 {
