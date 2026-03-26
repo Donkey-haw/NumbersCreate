@@ -1,0 +1,17 @@
+# Environments
+venv/
+env/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# OS
+.DS_Store
+
+# Temporary Numbers files
+numbers/*_Final.numbers
+numbers/Dynamic*
